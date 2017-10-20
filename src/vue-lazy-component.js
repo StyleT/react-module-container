@@ -50,7 +50,11 @@ class VueLazyComponent extends BaseLazyComponent {
                     },
                 },
                 render(createElement) {
-                    const vEl = createElement('div', {ref: "self", attrs: this.$attrs, props: this.$props, name: 'Musta-fa'}, []);
+                    const vEl = createElement('div', {
+                        ref: "self",
+                        attrs: this.$attrs,
+                        props: this.$props,
+                    }, []);
                     // vEl.tag = 'module-registry'; // Todo: use common native HTML tag name (like in angular)
                     this.realRender();
                     return vEl;
@@ -83,22 +87,23 @@ class VueLazyComponent extends BaseLazyComponent {
             // about clicks
             //         $element.on('click', e => e.preventDefault = () => delete e.preventDefault);
 
-            // // Todo: create another component
-            // $compileProvider.directive('routerLink', () => ({
-            //     transclude: true,
-            //     scope: {to: '@'},
-            //     template: '<a ng-href="{{to}}" ng-click="handleClick($event)"><ng-transclude></ng-transclude></a>',
-            //     controller: $scope => {
-            //         $scope.handleClick = event => {
-            //             if (event.ctrlKey || event.metaKey || event.shiftKey || event.which === 2 || event.button === 2) {
-            //                 return;
-            //             } else {
-            //                 this.props.router.push($scope.to);
-            //                 event.preventDefault();
-            //             }
-            //         };
-            //     }
-            // }));
+            const rootRouter = this.props.router;
+            Vue.component('router-link', {
+                template: `<a :href="to" @click="handleClick"><slot/></a>`,
+                props: {
+                    to: String,
+                },
+                methods: {
+                    handleClick(event) {
+                        if (event.ctrlKey || event.metaKey || event.shiftKey || event.which === 2 || event.button === 2) {
+                            return;
+                        }
+                        rootRouter.push(this.to);
+                        event.preventDefault();
+                    },
+                },
+            });
+
             this.vm.$data.props = this.mergedProps;
             const component = this.vm.$mount();
             this.node.appendChild(component.$el);

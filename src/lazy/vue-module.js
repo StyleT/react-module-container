@@ -15,7 +15,7 @@ ModuleRegistry.registerComponent('MyApp6.VueComponent1', () => new Vue({
     data: {
         props: Object,
     },
-    template: `      <ol>
+    template: `<div title="This is from Vue.js"><ol>
         <!--
           Теперь мы можем передать каждому компоненту todo объект
           с информацией о задаче, который будет динамически меняться.
@@ -29,5 +29,9 @@ ModuleRegistry.registerComponent('MyApp6.VueComponent1', () => new Vue({
         </todo-item>
         <li>from resolve: <strong>{{props.customData.user}}</strong></li>
         <li>from react: <strong>{{props.value}}</strong></li>
-      </ol>`
+      </ol>
+      <module-registry component="Hello" :props="props" title="This is injection React in Vue"></module-registry>
+      <br/>
+      <router-link to="/ng-router-app/a" class="test-class">to /ng-router-app/a</router-link>
+</div>`
 }));
