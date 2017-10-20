@@ -32,32 +32,56 @@ class VueLazyComponent extends BaseLazyComponent {
                 return;
             }
             this.vm = ModuleRegistry.component(this.manifest.component);
-            this.vm.$data.props = this.mergedProps;
-            const component = this.vm.$mount();
-            this.node.appendChild(component.$el);
 
             const Vue = this.vm.constructor;
 
-            // $provide.factory('props', () => () => this.mergedProps);
-            // // Todo: create sub component
-            // Vue.component('module-registry', {
-            //
-            // });
-            // $compileProvider.directive('moduleRegistry', () => ({
-            //     scope: {component: '@', props: '<'},
-            //     controller: ($scope, $element) => {
-            //         const Component = ModuleRegistry.component($scope.component);
-            //         $scope.$watch(() => $scope.props, () => {
-            //             render(
-            //                 <AddRouterContext router={this.props.router}>
-            //                     <Component {...$scope.props}/>
-            //                 </AddRouterContext>, $element[0]);
-            //         }, true);
-            //         $scope.$on('$destroy', () => unmountComponentAtNode($element[0]));
-            //         //super hack to prevent angular from preventing external route changes
+            Vue.component('module-registry', {
+                template: `<module-registry ref="self">{{component}}</module-registry>`,
+                props: {
+                    props: {
+                        type: Object,
+                        default() {
+                            return {};
+                        }
+                    },
+                    component: {
+                        type: String,
+                        required: true
+                    },
+                },
+                render(createElement) {
+                    const vEl = createElement('div', {ref: "self", attrs: this.$attrs, props: this.$props, name: 'Musta-fa'}, []);
+                    // vEl.tag = 'module-registry'; // Todo: use common native HTML tag name (like in angular)
+                    this.realRender();
+                    return vEl;
+                },
+                beforeMount() {
+                    this.componentFromRegistry = ModuleRegistry.component(this.component);
+                },
+                mounted() {
+                    this.realRender();
+                },
+                beforeDestroy() {
+                    const el = this.$refs.self;
+                    this.$nextTick(() => unmountComponentAtNode(el));
+                },
+                methods: {
+                    realRender() {
+                        if (!this.$refs.self) {
+                            return;
+                        }
+                        render(
+                            <AddRouterContext router={this.props.router}>
+                                <this.componentFromRegistry {...this.props}/>
+                            </AddRouterContext>,
+                            this.$refs.self
+                        );
+                    }
+                },
+            });
+            // Todo: what do with this comment: //super hack to prevent angular from preventing external route changes
+            // about clicks
             //         $element.on('click', e => e.preventDefault = () => delete e.preventDefault);
-            //     }
-            // }));
 
             // // Todo: create another component
             // $compileProvider.directive('routerLink', () => ({
@@ -75,21 +99,17 @@ class VueLazyComponent extends BaseLazyComponent {
             //         };
             //     }
             // }));
-
+            this.vm.$data.props = this.mergedProps;
+            const component = this.vm.$mount();
+            this.node.appendChild(component.$el);
         });
     }
 
     componentWillUnmount() {
-        debugger
         this.mounted = false;
-        this.vm.$destroy();
-        // if (this.vm) {
-        //     const vm = this.vm;
-        //     setTimeout(() => {
-        //         debugger;
-        //         vm.$destroy()
-        //     }, 100);
-        // }
+        if (this.vm) {
+            this.vm.$destroy();
+        }
         if (this.manifest.unloadStylesOnDestroy !== false) {
             unloadStyles(document, this.manifest.files);
         }
@@ -103,7 +123,7 @@ class VueLazyComponent extends BaseLazyComponent {
     }
 
     render() {
-        return (<div ref={node => this.node = node} />);
+        return (<div ref={node => this.node = node}/>);
     }
 }
 
