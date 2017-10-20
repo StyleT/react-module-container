@@ -29,6 +29,7 @@ const MyApp4 = {MyNgComp: ModuleRegistry.component('MyApp4.MyNgComp')};
 const MyApp5 = {MyNgComp: ModuleRegistry.component('MyApp5.MyNgComp')};
 const MyApp5NoUnloadCss = {MyNgComp: ModuleRegistry.component('MyApp5NoUnloadCss.MyNgComp')};
 const MyApp6 = {MyVueComp: ModuleRegistry.component('MyApp6.MyVueComp')};
+const MyApp7 = {MyVueComp: ModuleRegistry.component('MyApp7.MyVueComp')};
 
 const SplatLink = withRouter(props => {
   const newProps = {to: props.to, className: props.className, style: props.style};
@@ -51,6 +52,7 @@ const Navigation = withStore(props => (
     <SplatLink {...props} to="/ng-router-app5" activeClassName={activeLink} className="nav">ng-router-app5</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app5-no-unload-css" activeClassName={activeLink} className="nav">ng-router-app5-no-unload-css</SplatLink>&nbsp;
     <SplatLink {...props} to="/no-router-app6" activeClassName={activeLink} className="nav">no-router-app6 vue</SplatLink>&nbsp;
+    <SplatLink {...props} to="/vue-router-app7/foo" activeClassName={activeLink} className="nav">vue-router-app7</SplatLink>&nbsp;
     <div style={{marginTop: '15px'}}>{props.children}</div>
   </div>
 ));
@@ -67,6 +69,7 @@ const App4 = withStore(withRouter(props => <MyApp4.MyNgComp topology={topology} 
 const App5 = withStore(withRouter(props => <MyApp5.MyNgComp topology={topology} {...props}/>));
 const App5NoUnloadModule = withStore(withRouter(props => <MyApp5NoUnloadCss.MyNgComp topology={topology} {...props}/>));
 const App6 = withStore(withRouter(props => <MyApp6.MyVueComp topology={topology} {...props}/>));
+const App7 = withStore(withRouter(props => <MyApp7.MyVueComp topology={topology} {...props}/>));
 
 render(
   <Provider store={store}>
@@ -80,6 +83,7 @@ render(
         <Route path="/ng-router-app5" component={App5}/>
         <Route path="/ng-router-app5-no-unload-css" component={App5NoUnloadModule}/>
         <Route path="/no-router-app6" component={App6}/>
+        <Route path="/vue-router-app7/**" component={App7}/>
       </Route>
     </Router>
   </Provider>,

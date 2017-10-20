@@ -31,7 +31,7 @@ class VueLazyComponent extends BaseLazyComponent {
             if (!this.mounted) {
                 return;
             }
-            this.vm = ModuleRegistry.component(this.manifest.component);
+            const vm = this.vm = ModuleRegistry.component(this.manifest.component);
 
             const Vue = this.vm.constructor;
 
@@ -98,7 +98,13 @@ class VueLazyComponent extends BaseLazyComponent {
                         if (event.ctrlKey || event.metaKey || event.shiftKey || event.which === 2 || event.button === 2) {
                             return;
                         }
+                        const vueRouter = vm.$router;
+                        const needUpdateVueRouter = vueRouter && vueRouter.getMatchedComponents(this.to).length;
+
                         rootRouter.push(this.to);
+                        if (needUpdateVueRouter) {
+                            vueRouter.replace(this.to);
+                        }
                         event.preventDefault();
                     },
                 },
