@@ -62,7 +62,7 @@ class Hello extends React.Component {
   }
 
   render() {
-    return (<div>
+    return (<div title={"This is native react component"} style={{border: '1px solid yellow'}}>
       <div onClick={() => this.handleClick()}>
         <div>React Counter (click me): <span id="counter">{this.state.counter}</span>!!!</div>
         <div id="value-in-react">{this.props.value}</div>
