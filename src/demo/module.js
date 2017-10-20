@@ -70,6 +70,7 @@ class Hello extends React.Component {
       <div>
         <Link className={'react-link'} to="/ng-router-app/a">ng-route-app</Link>&nbsp;
         <Link className={'react-link'} to="/ui-router-app/">ui-route-app</Link>&nbsp;
+        <Link className={'react-link'} to="/vue-router-app7/bar">vue-router-app7/bar</Link>&nbsp;
       </div>
     </div>);
   }
