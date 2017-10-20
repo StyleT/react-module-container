@@ -114,6 +114,29 @@ export class MyNgApp5NoUnloadCss extends MyNgComp5 {
   }
 }
 
+export class MyVueComp extends VueLazyComponent {
+    constructor(props) {
+        super(props, {
+            files: [`${props.topology.staticsUrl}vue-module.bundle.js`],
+            resolve: () => {
+                const experimentsPromise = Promise.resolve([
+                    { id: 0, text: 'Овощи' },
+                    { id: 1, text: 'Сыр' },
+                    { id: 2, text: 'Что там ещё люди едят?' }
+                ]);
+                const customDataPromise = Promise.resolve({user: 'xiw@wix.com'});
+                return Promise.all([experimentsPromise, customDataPromise]).then(results => {
+                    return {
+                        groceryList: results[0],
+                        customData: results[1]
+                    };
+                });
+            },
+            component: 'MyApp6.VueComponent1'
+        });
+    }
+}
+
 ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
 ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);
 ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
@@ -121,3 +144,4 @@ ModuleRegistry.registerComponent('Hello', () => Hello);
 ModuleRegistry.registerComponent('MyApp4.MyNgComp', () => MyNgComp4);
 ModuleRegistry.registerComponent('MyApp5.MyNgComp', () => MyNgComp5);
 ModuleRegistry.registerComponent('MyApp5NoUnloadCss.MyNgComp', () => MyNgApp5NoUnloadCss);
+ModuleRegistry.registerComponent('MyApp6.MyVueComp', () => MyVueComp);
