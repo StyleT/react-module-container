@@ -4,15 +4,17 @@ function noprotocol(url) {
   return url.replace(/^.*:\/\//, '//');
 }
 
-export function tagAppender(url, filetype) {
+export function tagAppender(url, filetype, options = {}) {
   const styleSheets = document.styleSheets;
   return requireCache[url] = new Promise((resolve, reject) => {
     if (window.requirejs && filetype === 'js') {
       window.requirejs([url], resolve, reject);
       return;
     } else if (url in requireCache) {
-      // requireCache[url].then(resolve, reject);
-      // return;
+      if (options.noRepeatJsLoading && filetype === 'js') {
+          requireCache[url].then(resolve, reject);
+          return;
+      }
     }
 
     let fileref;
@@ -60,16 +62,16 @@ export function tagAppender(url, filetype) {
   });
 }
 
-function append(file) {
-  return tagAppender(file, file.split('.').pop());
+function append(file, options) {
+  return tagAppender(file, file.split('.').pop(), options);
 }
 
-export function filesAppender(files) {
+export function filesAppender(files, options = {}) {
   return Promise.all(files.map(file => {
     if (Array.isArray(file)) {
-      return file.reduce((promise, next) => promise.then(() => append(next)), Promise.resolve());
+      return file.reduce((promise, next) => promise.then(() => append(next, options)), Promise.resolve());
     } else {
-      return append(file);
+      return append(file, options);
     }
   }));
 }
