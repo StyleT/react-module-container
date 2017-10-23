@@ -111,6 +111,11 @@ class VueLazyComponent extends BaseLazyComponent {
             });
 
             this.vm.$data.props = this.mergedProps;
+            // TODO: router initialization with Non first run
+            // if (this.vm.$router) {
+            //     const to = this.props.location;
+            //     this.vm.$router.replace(to);
+            // }
             const component = this.vm.$mount();
             this.node.appendChild(component.$el);
         });

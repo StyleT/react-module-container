@@ -7,7 +7,8 @@ export class MyNgComp extends AngularLazyComponent {
     super(props, {
       files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
       module: 'myApp',
-      component: 'my-comp'
+      component: 'my-comp',
+      noRepeatJsLoading: true,
     });
   }
 }
@@ -27,7 +28,8 @@ export class MyNgComp2 extends AngularLazyComponent {
         });
       },
       module: 'myApp2',
-      component: 'my-comp'
+      component: 'my-comp',
+      noRepeatJsLoading: true,
     });
   }
 }
@@ -46,7 +48,8 @@ export class MyReactComp extends ReactLazyComponent {
           };
         });
       },
-      component: 'MyApp3.RealReactComp'
+      component: 'MyApp3.RealReactComp',
+      noRepeatJsLoading: true,
     });
   }
 }
@@ -88,7 +91,8 @@ export class MyNgComp4 extends AngularLazyComponent {
         `${props.topology.baseUrl}demo-4.css`
       ],
       module: 'myApp4',
-      component: 'my-comp'
+      component: 'my-comp',
+      noRepeatJsLoading: true,
     });
   }
 }
@@ -103,7 +107,8 @@ export class MyNgComp5 extends AngularLazyComponent {
         `${props.topology.baseUrl}demo-5.css`
       ],
       module: 'myApp5',
-      component: 'my-comp'
+      component: 'my-comp',
+      noRepeatJsLoading: true,
     });
   }
 }
@@ -112,13 +117,14 @@ export class MyNgApp5NoUnloadCss extends MyNgComp5 {
   constructor(props) {
     super(props);
     this.manifest.unloadStylesOnDestroy = false;
+    this.manifest.noRepeatJsLoading = false;
   }
 }
 
 export class MyVueCompApp6 extends VueLazyComponent {
     constructor(props) {
         super(props, {
-            files: [`${props.topology.staticsUrl}vue-module.bundle.js`],
+            files: [`${props.topology.staticsUrl}vue-module-1.bundle.js`],
             resolve: () => {
                 const experimentsPromise = Promise.resolve([
                     { id: 0, text: 'Овощи' },
@@ -133,7 +139,8 @@ export class MyVueCompApp6 extends VueLazyComponent {
                     };
                 });
             },
-            component: 'MyApp6.VueComponent1'
+            component: 'MyApp6.VueComponent1',
+            noRepeatJsLoading: true,
         });
     }
 }
@@ -141,8 +148,9 @@ export class MyVueCompApp6 extends VueLazyComponent {
 export class MyVueCompApp7 extends VueLazyComponent {
     constructor(props) {
         super(props, {
-            files: [`${props.topology.staticsUrl}vue-module.bundle.js`],
-            component: 'MyApp7.VueComponent1'
+            files: [`${props.topology.staticsUrl}vue-module-2.bundle.js`],
+            component: 'MyApp7.VueComponent1',
+            noRepeatJsLoading: true,
         });
     }
 }

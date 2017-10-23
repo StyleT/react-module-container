@@ -44,15 +44,15 @@ const Navigation = withStore(props => (
     <EventsListener/>
     <input id="react-input" value={props.value} onChange={e => props.assign(e.target.value)}/>
     <br/>
-    <SplatLink {...props} to="/ng-router-app/a" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
+    <SplatLink {...props} to="/ng-router-app/a" activeClassName={activeLink} className="nav">ng-router-app/a</SplatLink>&nbsp;
     <SplatLink {...props} to="/ui-router-app/" activeClassName={activeLink} className="nav">ui-router-app</SplatLink>&nbsp;
     <SplatLink {...props} to="/rt-router-app/" activeClassName={activeLink} className="nav">rt-router-app</SplatLink>&nbsp;
-    <SplatLink {...props} to="/ng-router-app/b" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
+    <SplatLink {...props} to="/ng-router-app/b" activeClassName={activeLink} className="nav">ng-router-app/b</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app4" activeClassName={activeLink} className="nav">ng-router-app4</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app5" activeClassName={activeLink} className="nav">ng-router-app5</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app5-no-unload-css" activeClassName={activeLink} className="nav">ng-router-app5-no-unload-css</SplatLink>&nbsp;
     <SplatLink {...props} to="/no-router-app6" activeClassName={activeLink} className="nav">no-router-app6 vue</SplatLink>&nbsp;
-    <SplatLink {...props} to="/vue-router-app7/foo" activeClassName={activeLink} className="nav">vue-router-app7</SplatLink>&nbsp;
+    <SplatLink {...props} to="/vue-router-app7/" activeClassName={activeLink} className="nav">vue-router-app7</SplatLink>&nbsp;
     <div style={{marginTop: '15px'}}>{props.children}</div>
   </div>
 ));
