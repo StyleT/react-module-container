@@ -44,7 +44,9 @@ const routes = [
 
 const router = new VueRouter({
     routes, // сокращение от `routes: routes`
-    mode: "history",
+    mode: "history", // todo: what todo with
+    // # relative router
+    // # not an html5 history
 });
 
 ModuleRegistry.registerComponent('MyApp7.VueComponent1', () => new Vue({
@@ -55,6 +57,8 @@ ModuleRegistry.registerComponent('MyApp7.VueComponent1', () => new Vue({
     <!-- use router-link component for navigation. -->
     <!-- specify the link by passing the \`to\` prop. -->
     <!-- <router-link> will be rendered as an \`<a>\` tag by default -->
+    <!-- !! router-link was a component from VueRouter but !! -->
+    <!-- !! router-link is a component from react-module-container !! -->
     <router-link to="/vue-router-app7/foo">Go to Foo</router-link>
     <router-link to="/vue-router-app7/bar">Go to Bar</router-link>
   </p>
